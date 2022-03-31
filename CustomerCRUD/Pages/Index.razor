@@ -1,9 +1,50 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Blazor Web Assembly & Minimal API CRUD Operations</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Blazor Web Assembly & Minimal API CRUD Operations</h1>
+<div class="table-responsive">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>twitter</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+@code {
+  #pragma warning disable CS8618
+  [Inject]
+  protected HttpClient HttpClient { get; set; }
+#pragma warning restore CS8618
+  private List<Post>? _posts = null;
 
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+  protected override async Task OnInitializedAsync()
+  {
+    //https://localhost:7139
+    _posts = await HttpClient.GetFromJsonAsync<List<Post>?>("https://localhost:7139/posts/all");
+    Console.WriteLine($"Found {_posts?.Count} posts!");
+  }
+}

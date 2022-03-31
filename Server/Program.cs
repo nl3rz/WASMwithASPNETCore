@@ -4,6 +4,16 @@ using Shared.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+  options.AddDefaultPolicy(builder =>
+  {
+    builder.AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod();
+  });
+});
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -13,41 +23,20 @@ builder.Services.AddDbContext<CustomerDbContext>(options => options.UseSqlite("D
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
   app.UseSwagger();
   app.UseSwaggerUI(options =>
   {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "A web API serving a simple Post model.");
     options.RoutePrefix = String.Empty;
   });
-//}
-
 app.UseHttpsRedirection();
+app.UseCors();
 
-//Delete
-//var summaries = new[]
-//{
-//    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-//};
-
-//app.MapGet("/weatherforecast", () =>
 app.MapGet("/posts/all", async (CustomerDbContext dbContext) =>
 {
   List<Post> allPosts = await dbContext.Posts.ToListAsync();
   return allPosts;
-  //var forecast = Enumerable.Range(1, 5).Select(index =>
-  //   new WeatherForecast
-  //   (
-  //       DateTime.Now.AddDays(index),
-  //       Random.Shared.Next(-20, 55),
-  //       summaries[Random.Shared.Next(summaries.Length)]
-  //   ))
-  //    .ToArray();
-  //return forecast;
 });
-//.WithName("GetWeatherForecast");
 
 app.MapGet("/posts/by-id/{postId}", async (int postId, CustomerDbContext dbContext) =>
 {
@@ -97,9 +86,3 @@ app.MapDelete("/posts/delete/{postId}", async (int postId, CustomerDbContext dbC
   }
 });
 app.Run();
-
-//Delete
-//internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-//{
-//  public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-//}
