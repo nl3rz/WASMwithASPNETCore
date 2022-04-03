@@ -2,7 +2,7 @@
 internal static class APIEndpoints
 {
 #if DEBUG
-  private const string ServerBaseUrl = "https://localhost:7130";
+  private const string ServerBaseUrl = "https://localhost:7039";
 #else
   private const string ServerBaseUrl = "https://wasmwithaspnetcore-server.azurewebsites.net";
 #endif
