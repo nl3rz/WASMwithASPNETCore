@@ -45,7 +45,7 @@
     if (response.IsSuccessStatusCode)
     {
       await JsRuntime.InvokeVoidAsync("alert", "Post delete successful. Close the modal to see it in the table.");
-      OnClickButtonClose.InvokeAsync(true);
+      await OnClickButtonClose.InvokeAsync(true);
     }
     else
     {

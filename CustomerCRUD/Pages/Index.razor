@@ -15,7 +15,7 @@
 
 @if (_showingDeleteModal)
 {
-  <ModalConfirmDelete PostToDelete="_postBeingDeleted" OnClickButtonClose="(deleteSuccessful) => CloseDeleteModal(deleteSuccessful)" />
+  <ModalConfirmDelete PostToDelete="_postBeingDeleted" OnClickButtonClose="(deleteSuccessful) => ClosedDeleteModal(deleteSuccessful)" />
 }
 
 <h1>Blazor Web Assembly & Minimal API CRUD Operations</h1>
@@ -60,7 +60,7 @@
 </div>
 
 @code {
-  #pragma warning disable CS8618
+#pragma warning disable CS8618
   [Inject]
   protected HttpClient HttpClient { get; set; }
 #pragma warning restore CS8618

@@ -31,6 +31,7 @@ var app = builder.Build();
     options.RoutePrefix = String.Empty;
   });
 app.UseHttpsRedirection();
+
 app.UseCors();
 
 app.MapGet("/posts/all", async (CustomerDbContext dbContext) =>
@@ -42,6 +43,7 @@ app.MapGet("/posts/all", async (CustomerDbContext dbContext) =>
 app.MapGet("/posts/by-id/{postId}", async (int postId, CustomerDbContext dbContext) =>
 {
   Post? post = await dbContext.Posts.FindAsync(postId);
+
   if (post != null)
   {
     return Results.Ok(post);
@@ -62,6 +64,7 @@ app.MapPost("/posts/create", async (Post postToCreate, CustomerDbContext dbConte
 app.MapPut("/posts/update/{postId}", async (int postId, Post updatedPost, CustomerDbContext dbContext) =>
 {
   var postToUpdate = await dbContext.Posts.FindAsync(postId);
+
   if (postToUpdate == null)
   {
     return Results.NotFound();
@@ -77,6 +80,7 @@ app.MapPut("/posts/update/{postId}", async (int postId, Post updatedPost, Custom
 app.MapDelete("/posts/delete/{postId}", async (int postId, CustomerDbContext dbContext) =>
 {
   Post? postToDelete = await dbContext.Posts.FindAsync(postId);
+
   if (postToDelete != null)
   {
     dbContext.Posts.Remove(postToDelete);
