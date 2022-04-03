@@ -4,7 +4,7 @@
 <PageTitle>Blazor Web Assembly & Minimal API CRUD Operations</PageTitle>
 @if (_showingCreateModal)
 {
-  <ModalCreatePost OnClickButtonClose="CloseModal"/>
+  <ModalCreatePost OnClickButtonClose="(createdPost)=> CloseModal(createdPost)" />
 }
 <h1>Blazor Web Assembly & Minimal API CRUD Operations</h1>
 
@@ -47,7 +47,7 @@
 </div>
 
 @code {
-  #pragma warning disable CS8618
+#pragma warning disable CS8618
   [Inject]
   protected HttpClient HttpClient { get; set; }
 #pragma warning restore CS8618
@@ -60,8 +60,12 @@
     _posts = await HttpClient.GetFromJsonAsync<List<Post>?>("https://localhost:7139/posts/all");
     Console.WriteLine($"Found {_posts?.Count} posts!");
   }
-  private void CloseModal()
+  private void CloseModal(Post? createdPost)
   {
+    if (createdPost != null)
+    {
+      _posts?.Add(createdPost);
+    }
     _showingCreateModal = false;
   }
 }
