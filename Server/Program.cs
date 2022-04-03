@@ -21,6 +21,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<CustomerDbContext>(options => options.UseSqlite("Data Source=./Data/CustomerDb.db"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 var app = builder.Build();
 
   app.UseSwagger();
@@ -67,7 +68,9 @@ app.MapPut("/posts/update/{postId}", async (int postId, Post updatedPost, Custom
   }
   postToUpdate.Title = updatedPost.Title;
   postToUpdate.Content = updatedPost.Content;
+
   await dbContext.SaveChangesAsync();
+
   return Results.NoContent();
 });
 

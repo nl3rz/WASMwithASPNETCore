@@ -2,10 +2,12 @@
 @using CustomerCRUD.Components
 
 <PageTitle>Blazor Web Assembly & Minimal API CRUD Operations</PageTitle>
+
 @if (_showingCreateModal)
 {
-  <ModalCreatePost OnClickButtonClose="(createdPost)=> CloseModal(createdPost)" />
+  <ModalCreatePost OnClickButtonClose="(createdPost) => CloseModal(createdPost)" />
 }
+
 <h1>Blazor Web Assembly & Minimal API CRUD Operations</h1>
 
 <button @onclick="() => _showingCreateModal = true" class="btn btn-success btn-lg w-100 mb-3">
@@ -53,11 +55,13 @@
 #pragma warning restore CS8618
 
   private List<Post>? _posts = null;
+
   private bool _showingCreateModal = false;
+
   protected override async Task OnInitializedAsync()
   {
-    //https://localhost:7139
-    _posts = await HttpClient.GetFromJsonAsync<List<Post>?>("https://localhost:7139/posts/all");
+    _posts = await HttpClient.GetFromJsonAsync<List<Post>?>(APIEndpoints.PostsAll);
+
     Console.WriteLine($"Found {_posts?.Count} posts!");
   }
   private void CloseModal(Post? createdPost)
