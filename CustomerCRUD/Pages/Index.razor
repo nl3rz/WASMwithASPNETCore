@@ -1,50 +1,67 @@
 ﻿@page "/"
+@using CustomerCRUD.Components
 
 <PageTitle>Blazor Web Assembly & Minimal API CRUD Operations</PageTitle>
-
+@if (_showingCreateModal)
+{
+  <ModalCreatePost OnClickButtonClose="CloseModal"/>
+}
 <h1>Blazor Web Assembly & Minimal API CRUD Operations</h1>
+
+<button @onclick="() => _showingCreateModal = true" class="btn btn-success btn-lg w-100 mb-3">
+  Create Post
+</button>
+
 <div class="table-responsive">
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>twitter</td>
-    </tr>
-  </tbody>
-</table>
+  <table class="table table-bordered border-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">PostId (PK)</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (_posts != null)
+      {
+        @foreach (var post in _posts)
+        {
+          <tr>
+            <th scope="row">@post.PostId</th>
+            <td>@post.Title</td>
+            <td>@post.Content</td>
+            <td>
+              <button class="btn btn-warning w-100 mb-2">
+                Update
+              </button>
+              <button class="btn btn-danger w-100">
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
 </div>
+
 @code {
   #pragma warning disable CS8618
   [Inject]
   protected HttpClient HttpClient { get; set; }
 #pragma warning restore CS8618
-  private List<Post>? _posts = null;
 
+  private List<Post>? _posts = null;
+  private bool _showingCreateModal = false;
   protected override async Task OnInitializedAsync()
   {
     //https://localhost:7139
     _posts = await HttpClient.GetFromJsonAsync<List<Post>?>("https://localhost:7139/posts/all");
     Console.WriteLine($"Found {_posts?.Count} posts!");
+  }
+  private void CloseModal()
+  {
+    _showingCreateModal = false;
   }
 }
