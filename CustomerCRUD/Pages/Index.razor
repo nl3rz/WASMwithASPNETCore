@@ -35,7 +35,6 @@
       </tr>
     </thead>
     <tbody>
-
       @if (_posts != null)
       {
         @foreach (var post in _posts)
@@ -63,10 +62,10 @@
 #pragma warning disable CS8618
   [Inject]
   protected HttpClient HttpClient { get; set; }
+
 #pragma warning restore CS8618
 
   private List<Post>? _posts = null;
-
   private bool _showingCreateModal = false;
   private bool _showingUpdateModal = false;
   private bool _showingDeleteModal = false;

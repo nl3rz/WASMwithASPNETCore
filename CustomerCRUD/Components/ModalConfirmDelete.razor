@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Delete post</h5>
-        <button @onclick="() => OnClickButtonClose.InvokeAsync(false)" type="button" class="btn-close" aria-label="Close"></button>
+          <button @onclick="() => OnClickButtonClose.InvokeAsync(false)" type="button" class="btn-close" aria-label="Close"></button>
       </div>
 
       @if (PostToDelete != null)
@@ -11,7 +11,6 @@
         <div class="modal-body">
           <h3>Are you sure you want to delete post "@PostToDelete.Title"?</h3>
         </div>
-
         <div class="modal-footer">
           <button @onclick="() => OnClickButtonClose.InvokeAsync(false)" type="button" class="btn btn-secondary">Cancel</button>
           <button @onclick="DeletePostAsync" type="button" class="btn btn-danger">Confirm</button>
@@ -34,11 +33,12 @@
 
   [Inject]
   protected IJSRuntime JsRuntime { get; set; }
+
 #pragma warning restore CS8618
 
   private async Task DeletePostAsync()
   {
-    Console.WriteLine($"UpdatePostAsync | title: {PostToDelete.Title} | content: {PostToDelete.Content}");
+    Console.WriteLine($"UpdatePostAsync | title: {PostToDelete!.Title} | content: {PostToDelete.Content}");
 
     HttpResponseMessage response = await HttpClient.DeleteAsync(APIEndpoints.PostsDelete(PostToDelete.PostId));
 

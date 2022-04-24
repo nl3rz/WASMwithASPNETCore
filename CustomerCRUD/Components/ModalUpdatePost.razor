@@ -54,7 +54,7 @@
 
   private async Task UpdatePostAsync()
   {
-    Console.WriteLine($"UpdatePostAsync | title: {PostToUpdate.Title} | content: {PostToUpdate.Content}");
+    Console.WriteLine($"UpdatePostAsync | title: {PostToUpdate!.Title} | content: {PostToUpdate.Content}");
 
     HttpResponseMessage response = await HttpClient.PutAsJsonAsync<Post>(APIEndpoints.PostsUpdate(PostToUpdate.PostId), PostToUpdate);
 
